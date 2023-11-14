@@ -1,56 +1,26 @@
 #include "main.h"
 /**
- * _printf - A function that prints
- * string or character
- * @format: A pointer that contains the required string or character
- * Return: Returns number of character printer
+ * printf_string - print a string.
+ * @args: argument.
+ * Return: the length of the string.
  */
-
-
-int _printf(const char *format, ...)
+int printf_string(va_list args)
 {
-	va_list args;
-	int count = 0;
+	char *s;
+	int len;
 
-	va_start(args, format);
-	
-	if (format == NULL)
-		return (-1);
-
-	while (*format)
+	s = va_arg(args, char *);
+	if (s == NULL)
 	{
-		if (*format == '%')
-		{
-			format++;
-			if (*format == '\0')
-				break;
-			switch (*format)
-			{
-				case 'c':
-					count += putchar(va_arg(args, int));
-					break;
-				case 's':
-					{
-					const char *str = va_arg(args, const char *);
-
-					while (*str)
-					{
-						count += putchar(*str);
-						str++;
-					}
-					break;
-					}
-				case '%':
-					count += putchar('%');
-					break;
-				default:
-					break;
-			}
-		}
-		else
-			count += putchar(*format);
-		format++;
+		s = "(null)";
+		len = strlen(s);
+		write(1, s, len);
+		return (len);
 	}
-	va_end(args);
-	return (count);
+	else
+	{
+		len = strlen(s);
+		write(1, s, len);
+		return (len);
+	}
 }
